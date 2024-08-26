@@ -10,12 +10,14 @@ function TodoList() {
          <>
              <div className="todos">
              {
-                 store.todos.map(todo =>
+                //applying functionality of filtering todos according to their state such as done or todo...
+                store.filteredTodos().length ? store.filteredTodos().map(todo =>
                      <Todo
                       todo={todo}
                       key={todo.id}
                      />
-                 )
+                 ) :
+                 'No To-Dos available.'
              }
                  
             </div>

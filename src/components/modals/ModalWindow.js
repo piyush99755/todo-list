@@ -7,7 +7,7 @@ function ModalWindow({children}) {
         <div className="modal-wrapper" aria-modal="true"
             role="dialog" tabIndex="-1">
             <div className="inner">
-              <ModalCloseButton />
+              <ModalCloseButton /> 
                 {children}
             </div>
         </div>

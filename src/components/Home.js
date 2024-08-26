@@ -6,10 +6,11 @@ import {TodosContext} from '../TodosContext';
 import { useContext } from 'react';
 
 function Home() {
-    const store = useContext(TodosContext);
+    const store = useContext(TodosContext); //getting todos from context..
     return (
         <>
         {
+            //only when modal state is set to active, render following components.. 
             store.modalIsActive &&
             <ModalWindow>
                 <AddTodoModal/>

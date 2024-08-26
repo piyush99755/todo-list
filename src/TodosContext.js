@@ -1,19 +1,44 @@
-import { createContext, useReducer, useState } from "react";
+import { createContext, useEffect, useReducer, useState } from "react";
 
-export const TodosContext = createContext('');
+//context that can be used in other child components..
+export const TodosContext = createContext(''); 
 
-const initialTodos = [
-    { id: 0, title: 'Do Groceries', description: 'Buy apples, rice, juice and toilet paper.', isDone: true },
-    { id: 1, title: 'Study React', description: 'Understand context & reducers.', isDone: false},
-    { id: 2, title: 'Learn Redux', description: 'Learn state management with Redux', isDone: false }
-  ];
+//getting list of todos on every time browser refresh
+const initialTodos = localStorage.getItem('todos') ? JSON.parse(localStorage.getItem('todos')): [];
+    
+  
   
   
     
   
-  export  function TodosProvider({children}) {
+  export  function TodosProvider({children}) 
+  {
+    //reducer and state variables...
     const [todos, dispatch] = useReducer(todosReducer, initialTodos);
     const [modalIsActive, setModalIsActive] = useState(false);
+    const [filterBy,setFilterBy] = useState('');
+
+    function filteredTodos() {
+      switch(filterBy){
+        case 'todo': 
+          return todos.filter(todo => !todo.isDone);
+
+        
+        case 'done': 
+          return todos.filter(todo => todo.isDone);
+      
+
+        default:
+          return todos;
+
+        
+      }
+    }
+    //use effect hook to set todos in local storage...
+    useEffect( () => {
+      localStorage.setItem('todos',JSON.stringify(todos));
+
+    }, [todos])
     return (
       <>
         <main>
@@ -22,7 +47,10 @@ const initialTodos = [
           {{todos, 
           dispatch,
           modalIsActive, 
-          setModalIsActive
+          setModalIsActive,
+          filterBy,
+          setFilterBy,
+          filteredTodos
           }}>
              {children}
   
@@ -32,7 +60,9 @@ const initialTodos = [
       </>
     )
   }
+   
 
+  //todos reducer actions and its functionality... 
    function todosReducer(todos, action) {
     switch(action.type) {
         case 'deleted': {
@@ -42,7 +72,7 @@ const initialTodos = [
         case 'added': {
           let newTodo = action.newTodo;
            newTodo.id = todos.length ? Math.max(...todos.map(todo => todo.id))+1 : 1;
-           console.log(newTodo);
+           
           return [...todos, newTodo ];
 
         }

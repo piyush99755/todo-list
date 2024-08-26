@@ -11,8 +11,9 @@ function App() {
   
   return (
     <>
-      <main>
+      <main>  {/*rendering header and home components */ }
         <TodosProvider>
+         
             <Header appName="To-Do List with React" />
 
             <Home />
