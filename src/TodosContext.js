@@ -39,6 +39,14 @@ const initialTodos = [
             return todos.filter(todo => todo.id !== action.id);
         }
 
+        case 'added': {
+          let newTodo = action.newTodo;
+           newTodo.id = todos.length ? Math.max(...todos.map(todo => todo.id))+1 : 1;
+           console.log(newTodo);
+          return [...todos, newTodo ];
+
+        }
+
         case 'toggledIsDone': {
             return (todos.map(todo => {
                 if(todo.id === action.id)
